@@ -52,5 +52,8 @@ La principal ventaja es que se reutiliza el constructor completo y se evita repe
 Por ejemplo:
 public Paquete(String codigo, String destino) {
     this(codigo, destino, 1.0, false);
+
+
+#Taller 4
 }
 De esta manera el constructor abreviado delega la inicialización al constructor completo.
