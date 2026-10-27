@@ -76,8 +76,11 @@ false
 true
 
 -El tamaño inicial es 3 porque agregamos tres elementos a la lista (dos veces la misma referencia del objeto x y un objeto nuevo creado con new).
+
 -lista.get(0) == lista.get(1) da true porque ambas posiciones apuntan exactamente al mismo objeto en la memoria Heap.
+
 -lista.get(0) == lista.get(2) da false porque, aunque tienen los mismos atributos, fueron instanciados en espacios de memoria diferentes mediante new.
+
 -Al ejecutar lista.remove(x), se elimina la primera ocurrencia del objeto x, lo que reduce el tamaño de la lista a 2 y deja la segunda ocurrencia todavía dentro, haciendo que contains(x) devuelva true.
 
 **Preguntas Teóricas**
