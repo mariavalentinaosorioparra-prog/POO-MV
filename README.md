@@ -51,9 +51,49 @@ Tienen la misma firma porque ambas reciben un int.
 La principal ventaja es que se reutiliza el constructor completo y se evita repetir código. Así, si después se cambia la forma de inicializar un atributo, solo es necesario modificar el constructor completo y los demás constructores seguirán utilizando esa misma lógica.
 Por ejemplo:
 public Paquete(String codigo, String destino) {
-    this(codigo, destino, 1.0, false);
+    this(codigo, destino, 1.0, false); 
 
-
-#Taller 4
 }
 De esta manera el constructor abreviado delega la inicialización al constructor completo.
+
+
+
+
+# Taller 4 Colecciones, relaciones entre clases y static
+
+1. java.util.ConcurrentModificationException:
+esto ocurre porque el el ciclo for-each utiliza un iterador interno para recorrer la lista de canciones. Si intentamos modificar (eliminar o agregar) elementos de la lista directamente utilizando .remove() mientras el iterador está activo, Java detecta una alteración no segura en la estructura y detiene la ejecución inmediatamente lanzando esta excepción.
+
+2. Puesto(int) is not public in parqueadero.modelo; cannot be accessed from outside package:
+Este error aparece porque el constructor de la clase Puesto tiene un modificador de acceso por defecto (sin la palabra public), lo que restringe su visibilidad únicamente al paquete parqueadero.modelo. Esto está directamente relacionado con el concepto de composición, donde el Parqueadero es el único dueño y responsable de crear, gestionar y destruir la vida de sus propios Puestos
+
+3. Salida predicha:
+
+3
+true
+false
+2
+true
+
+-El tamaño inicial es 3 porque agregamos tres elementos a la lista (dos veces la misma referencia del objeto x y un objeto nuevo creado con new).
+-lista.get(0) == lista.get(1) da true porque ambas posiciones apuntan exactamente al mismo objeto en la memoria Heap.
+-lista.get(0) == lista.get(2) da false porque, aunque tienen los mismos atributos, fueron instanciados en espacios de memoria diferentes mediante new.
+-Al ejecutar lista.remove(x), se elimina la primera ocurrencia del objeto x, lo que reduce el tamaño de la lista a 2 y deja la segunda ocurrencia todavía dentro, haciendo que contains(x) devuelva true.
+
+**Preguntas Teóricas**
+
+1. ¿Por qué ArrayList<int> no compila y ArrayList<Integer> sí?
+Porque las colecciones en Java (como ArrayList) están diseñadas para trabajar exclusivamente con objetos y tipos de referencia. El tipo int es un tipo de dato primitivo, mientras que Integer es su clase envolvente (wrapper class), la cual permite tratar los valores numéricos como objetos aptos para las colecciones.
+
+2. ¿Por qué eliminar a Nevado de Favoritas no lo eliminó de Viaje? ¿Qué relación muestra eso?
+Porque las listas almacenan referencias a los objetos ubicados en el Memoria Heap. Favoritas y Viaje contenían referencias a las mismas canciones, pero las listas como contenedores son totalmente independientes. Borrar un elemento de una lista solo elimina el apuntador de esa lista específica. Esto demuestra una relación de agregación / asociación, donde un objeto (Cancion) puede pertenecer y ser compartido por múltiples contenedores (Playlist) de manera independiente.
+
+3. ¿Qué diferencia hay entre la relación Playlist-Cancion y la relación Parqueadero-Puesto?
+La relación entre Playlist y Cancion es una agregación, lo que significa que las canciones pueden existir de forma independiente y compartirse entre distintas listas. En cambio, la relación entre Parqueadero y Puesto es una composición, lo que implica que los puestos pertenecen exclusivamente al parqueadero, se crean dentro de él y no tienen sentido ni ciclo de vida fuera de este contenedor.
+
+4. ¿Por qué totalCanciones debe ser static y titulo no?
+El atributo totalCanciones debe ser static porque pertenece a toda la clase en general y se encarga de llevar una cuenta global de todas las canciones creadas sin importar la instancia. Por el contrario, titulo es un atributo de instancia, lo que significa que es una característica única e independiente para cada objeto de tipo canción que se cree.
+
+5. ¿Por qué un método static no puede usar this?
+Porque la palabra clave this hace referencia a una instancia específica (un objeto en particular) que se encuentra en ejecución. Los métodos static pertenecen a la clase como un todo y pueden ser llamados incluso sin haber creado ningún objeto, por lo que no existe un objeto actual (this) al cual hacer referencia.
+
